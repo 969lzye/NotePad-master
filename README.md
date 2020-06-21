@@ -67,7 +67,7 @@ int[] viewIDs = { android.R.id.text1 ,R.id.text2};
 ```
 
 ### (5).运行效果
-![效果1](app/src/main/res/screenshoots/1.png)
+![效果1](app/src/main/res/drawable/screenshoots/1.png)
 
 ## 二.笔记查询
 
