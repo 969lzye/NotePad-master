@@ -21,4 +21,22 @@
           android:icon="@drawable/ic_menu_compose"
           android:title="@string/menu_paste"
           android:alphabeticShortcut='p' />
+
+    <item
+        android:id="@+id/menu_sort"
+        android:title="@string/menu_sort"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:showAsAction="always" >
+        <menu>
+            <item
+                android:id="@+id/menu_sort1"
+                android:title="@string/menu_sort1"/>
+            <item
+                android:id="@+id/menu_sort2"
+                android:title="@string/menu_sort2"/>
+            <item
+                android:id="@+id/menu_sort3"
+                android:title="@string/menu_sort3"/>
+        </menu>
+    </item>
 </menu>
