@@ -75,7 +75,8 @@ public class NoteEditor extends Activity {
         new String[] {
             NotePad.Notes._ID,
             NotePad.Notes.COLUMN_NAME_TITLE,
-            NotePad.Notes.COLUMN_NAME_NOTE
+            NotePad.Notes.COLUMN_NAME_NOTE,
+            NotePad.Notes.COLUMN_NAME_BACK_COLOR,
     };
 
     // A label for the saved state of the activity
@@ -264,6 +265,34 @@ public class NoteEditor extends Activity {
     protected void onResume() {
         super.onResume();
 
+        //读取颜色数据
+        if(mCursor!=null){
+            mCursor.moveToFirst();
+            int x = mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_BACK_COLOR);
+            int y = mCursor.getInt(x);
+            Log.i("NoteEditor", "color"+y);
+            switch (y){
+                case NotePad.Notes.DEFAULT_COLOR:
+                    mText.setBackgroundColor(Color.rgb(255, 255, 255));
+                    break;
+                case NotePad.Notes.YELLOW_COLOR:
+                    mText.setBackgroundColor(Color.rgb(240,210,100));
+                    break;
+                case NotePad.Notes.BLUE_COLOR:
+                    mText.setBackgroundColor(Color.rgb(102,152,203));
+                    break;
+                case NotePad.Notes.GREEN_COLOR:
+                    mText.setBackgroundColor(Color.rgb(130,200,160));
+                    break;
+                case NotePad.Notes.RED_COLOR:
+                    mText.setBackgroundColor(Color.rgb(250,90,90));
+                    break;
+                default:
+                    mText.setBackgroundColor(Color.rgb(255, 255, 255));
+                    break;
+            }
+        }
+
         /*
          * mCursor is initialized, since onCreate() always precedes onResume for any running
          * process. This tests that it's not null, since it should always contain data.
@@ -449,21 +478,6 @@ public class NoteEditor extends Activity {
         // Handle all of the possible menu actions.
         View view=findViewById(R.id.note);
         switch (item.getItemId()) {
-        case R.id.color_white:
-            view.setBackgroundColor(Color.rgb(255,255,255));
-            break;
-        case R.id.color_red:
-            view.setBackgroundColor(Color.rgb(244,96,108));
-            break;
-        case R.id.color_yellow:
-            view.setBackgroundColor(Color.rgb(209,186,116));
-            break;
-        case R.id.color_blue:
-            view.setBackgroundColor(Color.rgb(38,188,213));
-            break;
-        case R.id.color_green:
-            view.setBackgroundColor(Color.rgb(38,157,128));
-            break;
         case R.id.menu_save:
             String text = mText.getText().toString();
             updateNote(text, null);
@@ -497,10 +511,50 @@ public class NoteEditor extends Activity {
          });
              builder.show();
             break;
+        //换背景颜色选项
+        case R.id.menu_color://跳转改变颜色的activity
+            changeColor();
+            //读取颜色数据
+            if(mCursor!=null){
+                mCursor.moveToFirst();
+                int x = mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_BACK_COLOR);
+                int y = mCursor.getInt(x);
+                Log.i("NoteEditor", "color"+y);
+                switch (y){
+                    case NotePad.Notes.DEFAULT_COLOR:
+                        mText.setBackgroundColor(Color.rgb(255, 255, 255));
+                        break;
+                    case NotePad.Notes.YELLOW_COLOR:
+                        mText.setBackgroundColor(Color.rgb(240,210,100));
+                        break;
+                    case NotePad.Notes.BLUE_COLOR:
+                        mText.setBackgroundColor(Color.rgb(102,152,203));
+                        break;
+                    case NotePad.Notes.GREEN_COLOR:
+                        mText.setBackgroundColor(Color.rgb(130,200,160));
+                        break;
+                    case NotePad.Notes.RED_COLOR:
+                        mText.setBackgroundColor(Color.rgb(250,90,90));
+                        break;
+                    default:
+                        mText.setBackgroundColor(Color.rgb(255, 255, 255));
+                        break;
+                }
+            }
+            break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    //跳转改变颜色的activity，将uri信息传到新的activity
+    private final void changeColor() {
+        Intent intent = new Intent(null,mUri);
+        intent.setClass(NoteEditor.this,NoteColor.class);
+
+        NoteEditor.this.startActivity(intent);
+    }
+
     public void outputNote(String filename){
         FileOutputStream output=null;
         BufferedWriter writer=null;

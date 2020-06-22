@@ -113,8 +113,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".NoteSearch" android:label="search" android:theme="@android:style/Theme.Holo.Light">
-
         </activity>
+        <activity android:name="NoteColor"
+            android:theme="@android:style/Theme.Holo.Light.Dialog"
+            android:label="Select Color"/>
 
     </application>
 
