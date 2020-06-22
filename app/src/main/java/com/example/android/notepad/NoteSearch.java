@@ -16,6 +16,8 @@ public class NoteSearch extends ListActivity implements SearchView.OnQueryTextLi
             NotePad.Notes._ID, // 0
             NotePad.Notes.COLUMN_NAME_TITLE, // 1
             NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE, // 2
+            //扩展 显示笔记背景颜色
+            NotePad.Notes.COLUMN_NAME_BACK_COLOR,
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +48,15 @@ public class NoteSearch extends ListActivity implements SearchView.OnQueryTextLi
         );
         String[] dataColumns = { NotePad.Notes.COLUMN_NAME_TITLE ,  NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE };
         int[] viewIDs = { android.R.id.text1 , R.id.text2 };
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+        MyCursorAdapter adapter
+                = new MyCursorAdapter(
                 this,
                 R.layout.noteslist_item,
                 cursor,
                 dataColumns,
                 viewIDs
         );
+
         setListAdapter(adapter); //加载主界面布局
         return true;
     }
