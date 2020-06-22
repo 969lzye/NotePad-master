@@ -44,4 +44,9 @@
     <string name="test">test</string>
     <string name="time">time</string>
     <string name="todo">TODO</string>
+
+    <string name="menu_sort">排序</string>
+    <string name="menu_sort1">标题排序</string>
+    <string name="menu_sort2">创建日期排序</string>
+    <string name="menu_sort3">修改日期排序</string>
 </resources>

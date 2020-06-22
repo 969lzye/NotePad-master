@@ -51,7 +51,10 @@ public class NotesList extends ListActivity {
 
     // For logging and debugging
     private static final String TAG = "NotesList";
-
+    private MyCursorAdapter adapter;
+    private Cursor cursor;
+    private String[] dataColumns = { NotePad.Notes.COLUMN_NAME_TITLE ,  NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE } ;
+    private int[] viewIDs = { android.R.id.text1 , R.id.text2 };
     /**
      * The columns needed by the cursor adapter
      */
@@ -101,7 +104,7 @@ public class NotesList extends ListActivity {
          *
          * Please see the introductory note about performing provider operations on the UI thread.
          */
-        Cursor cursor = managedQuery(
+        cursor = managedQuery(
             getIntent().getData(),            // Use the default content URI for the provider.
             PROJECTION,                       // Return the note ID and title for each note.
             null,                             // No where clause, return all records.
@@ -125,7 +128,7 @@ public class NotesList extends ListActivity {
         int[] viewIDs = { android.R.id.text1 ,R.id.text2};
 
         // Creates the backing adapter for the ListView.
-        MyCursorAdapter adapter
+        adapter
                 = new MyCursorAdapter(
                 this,
                 R.layout.noteslist_item,
@@ -288,6 +291,60 @@ public class NotesList extends ListActivity {
            */
           startActivity(new Intent(Intent.ACTION_PASTE, getIntent().getData()));
           return true;
+            //标题排序
+            case R.id.menu_sort1:
+                cursor = managedQuery(
+                        getIntent().getData(),
+                        PROJECTION,
+                        null,
+                        null,
+                        NotePad.Notes.COLUMN_NAME_TITLE
+                );
+                adapter = new MyCursorAdapter(
+                        this,
+                        R.layout.noteslist_item,
+                        cursor,
+                        dataColumns,
+                        viewIDs
+                );
+                setListAdapter(adapter);
+                return true;
+            //创建时间排序
+            case R.id.menu_sort2:
+                cursor = managedQuery(
+                        getIntent().getData(),
+                        PROJECTION,
+                        null,
+                        null,
+                        NotePad.Notes._ID
+                );
+                adapter = new MyCursorAdapter(
+                        this,
+                        R.layout.noteslist_item,
+                        cursor,
+                        dataColumns,
+                        viewIDs
+                );
+                setListAdapter(adapter);
+                return true;
+            //修改日期排序
+            case R.id.menu_sort3:
+                cursor = managedQuery(
+                        getIntent().getData(),
+                        PROJECTION,
+                        null,
+                        null,
+                        NotePad.Notes.DEFAULT_SORT_ORDER
+                );
+                adapter = new MyCursorAdapter(
+                        this,
+                        R.layout.noteslist_item,
+                        cursor,
+                        dataColumns,
+                        viewIDs
+                );
+                setListAdapter(adapter);
+                return true;
         default:
             return super.onOptionsItemSelected(item);
         }
