@@ -21,16 +21,16 @@ public class MyCursorAdapter extends SimpleCursorAdapter {
                 view.setBackgroundColor(Color.rgb(255, 255, 255));
                 break;
             case NotePad.Notes.YELLOW_COLOR:
-                view.setBackgroundColor(Color.rgb(247, 216, 133));
+                view.setBackgroundColor(Color.rgb(240,210,100));
                 break;
             case NotePad.Notes.BLUE_COLOR:
-                view.setBackgroundColor(Color.rgb(165, 202, 237));
+                view.setBackgroundColor(Color.rgb(102,152,203));
                 break;
             case NotePad.Notes.GREEN_COLOR:
-                view.setBackgroundColor(Color.rgb(161, 214, 174));
+                view.setBackgroundColor(Color.rgb(130,200,160));
                 break;
             case NotePad.Notes.RED_COLOR:
-                view.setBackgroundColor(Color.rgb(244, 149, 133));
+                view.setBackgroundColor(Color.rgb(250,90,90));
                 break;
             default:
                 view.setBackgroundColor(Color.rgb(255, 255, 255));
