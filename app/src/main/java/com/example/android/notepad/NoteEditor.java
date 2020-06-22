@@ -17,12 +17,14 @@
 package com.example.android.notepad;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -32,14 +34,23 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 
 /**
@@ -465,10 +476,54 @@ public class NoteEditor extends Activity {
         case R.id.menu_revert:
             cancelNote();
             break;
+         case R.id.menu_output:
+             final View outputAlertDialogView=getLayoutInflater().inflate(R.layout.note_output,null,false);
+             final AlertDialog.Builder builder=new AlertDialog.Builder(this);
+             final AlertDialog dialog=builder.setView(outputAlertDialogView).create();
+             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialog, int which) {
+                     dialog.dismiss();
+                 }
+             });
+             builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
+             @Override
+             public void onClick(DialogInterface dialog, int which) {
+                 EditText editText=(EditText)outputAlertDialogView.findViewById(R.id.filename);
+                 String filename=editText.getText().toString();
+                 System.out.println(filename);
+                 outputNote(filename);
+             }
+         });
+             builder.show();
+            break;
         }
+
         return super.onOptionsItemSelected(item);
     }
+    public void outputNote(String filename){
+        FileOutputStream output=null;
+        BufferedWriter writer=null;
+        try{
+            output=openFileOutput(filename,Context.MODE_PRIVATE);
+            writer=new BufferedWriter(new OutputStreamWriter(output));
+            writer.write(mCursor.getString(mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_TITLE)));
+            writer.newLine();
+            writer.write(mCursor.getString(mCursor.getColumnIndex(NotePad.Notes.COLUMN_NAME_NOTE)));
+            Toast.makeText(this,"导出成功，在data/data/com.example.android.notepad/files下",Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+         try {
+            if(writer!=null)
+                writer.close();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+        }
 
+    }
 //BEGIN_INCLUDE(paste)
     /**
      * A helper method that replaces the note's data with the contents of the clipboard.
