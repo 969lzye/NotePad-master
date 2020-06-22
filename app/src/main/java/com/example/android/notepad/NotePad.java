@@ -41,6 +41,16 @@ public final class NotePad {
         private Notes() {}
 
         /**
+         * 设置颜色编号
+         */
+        public static final String COLUMN_NAME_BACK_COLOR = "color";
+        public static final int DEFAULT_COLOR = 0;
+        public static final int YELLOW_COLOR = 1;
+        public static final int BLUE_COLOR = 2;
+        public static final int GREEN_COLOR = 3;
+        public static final int RED_COLOR = 4;
+
+        /**
          * The table name offered by this provider
          */
         public static final String TABLE_NAME = "notes";

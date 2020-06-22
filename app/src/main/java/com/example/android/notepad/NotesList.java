@@ -58,7 +58,9 @@ public class NotesList extends ListActivity {
     private static final String[] PROJECTION = new String[] {
             NotePad.Notes._ID, // 0
             NotePad.Notes.COLUMN_NAME_TITLE, //
-            NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE
+            NotePad.Notes.COLUMN_NAME_MODIFICATION_DATE,
+            //扩展 显示笔记背景颜色
+            NotePad.Notes.COLUMN_NAME_BACK_COLOR,
     };
 
     /** The index of the title column */
@@ -123,14 +125,15 @@ public class NotesList extends ListActivity {
         int[] viewIDs = { android.R.id.text1 ,R.id.text2};
 
         // Creates the backing adapter for the ListView.
-        SimpleCursorAdapter adapter
-            = new SimpleCursorAdapter(
-                      this,                             // The Context for the ListView
-                      R.layout.noteslist_item,          // Points to the XML for a list item
-                      cursor,                           // The cursor to get items from
-                      dataColumns,
-                      viewIDs
-              );
+        MyCursorAdapter adapter
+                = new MyCursorAdapter(
+                this,
+                R.layout.noteslist_item,
+                cursor,
+                dataColumns,
+                viewIDs
+        );
+
 
         // Sets the ListView's adapter to be the cursor adapter that was just created.
         setListAdapter(adapter);

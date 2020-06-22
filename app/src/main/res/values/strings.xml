@@ -40,4 +40,8 @@
     <string name="error_title">Error</string>
     <string name="error_message">Error loading note</string>
     <string name="nothing_to_save">There is nothing to save</string>
+    <string name="search">Search</string>
+    <string name="test">test</string>
+    <string name="time">time</string>
+    <string name="todo">TODO</string>
 </resources>
